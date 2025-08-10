@@ -32,23 +32,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Cuenta">
-
-        <Preference
-            app:key="username"
-            app:icon="@drawable/ic_account_circle_black_24dp"
-            app:title="Usuario"
-            app:summary="Invitado" />
-        <Preference
-            app:key="change_password"
-            app:title="Cambiar contraseña" />
-        <Preference
-            app:key="logout"
-            app:icon="@drawable/ic_power_settings_new_white_24dp"
-            app:title="Cerrar sesión" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory app:title="@string/about_header">
 
         <Preference

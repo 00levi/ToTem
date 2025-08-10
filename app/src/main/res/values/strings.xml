@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">TioAnime</string>
+    <string name="app_name" translatable="false">ToTem</string>
     <string name="title_home">Inicio</string>
     <string name="title_emision">Emisión</string>
     <string name="title_fav">Favoritos</string>
