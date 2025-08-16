@@ -1,6 +1,8 @@
 package com.axiel7.tioanime.view;
 
 import android.os.Bundle;
+import android.view.ViewGroup;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,11 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.axiel7.tioanime.R;
 import com.axiel7.tioanime.adapter.AnimeAdapter;
 import com.axiel7.tioanime.model.Anime;
-import com.axiel7.tioanime.model.Episode;
 import com.axiel7.tioanime.network.ApiService;
 import com.axiel7.tioanime.network.RetrofitClient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.recyclerView);
+
+        // Importante para TV: permitir que los hijos reciban el foco primero
+        recyclerView.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+        recyclerView.setFocusable(true);
+        recyclerView.setFocusableInTouchMode(true);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
@@ -40,12 +46,17 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<Anime>> call, Response<List<Anime>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Anime> animeList = response.body();
-                    for (Anime anime : animeList) {
-                        System.out.println("Anime: " + anime.getTitle() + " - Episodios: " + anime.getEpisodes().size());
-                    }
-
                     animeAdapter = new AnimeAdapter(animeList, MainActivity.this);
                     recyclerView.setAdapter(animeAdapter);
+
+                    // Pedir foco al primer item una vez que el RecyclerView tenga vistas
+                    recyclerView.post(() -> {
+                        if (recyclerView.getChildCount() > 0) {
+                            recyclerView.getChildAt(0).requestFocus();
+                        } else {
+                            recyclerView.requestFocus();
+                        }
+                    });
                 }
             }
 
@@ -56,4 +67,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Reintentar pedir foco al volver a la actividad
+        if (recyclerView != null) {
+            recyclerView.post(() -> {
+                if (recyclerView.getChildCount() > 0) {
+                    recyclerView.getChildAt(0).requestFocus();
+                } else {
+                    recyclerView.requestFocus();
+                }
+            });
+        }
+    }
 }

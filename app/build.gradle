@@ -4,7 +4,7 @@ android {
     compileSdkVersion 34 // Siempre conviene usar el último disponible
 
     defaultConfig {
-        applicationId "com.axiel7.tioanime"
+        applicationId "com.axiel7.tioanime2"
         minSdkVersion 21
         targetSdkVersion 34
         versionCode 3
@@ -63,6 +63,8 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.19.1'
 
 
+    implementation 'org.videolan.android:libvlc-all:3.6.0'
+
     // Otros
     implementation 'com.github.javiersantos:AppUpdater:2.7'
     implementation "ch.acra:acra-mail:5.1.3"
@@ -75,4 +77,5 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
 }
